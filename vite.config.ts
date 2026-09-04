@@ -125,7 +125,7 @@ export default defineConfig((config) => {
           global: 'globalThis',
         },
       },
-      include: ['@octokit/types', 'istextorbinary', 'path-browserify', 'react', 'react-dom', 'react/jsx-runtime'],
+      include: ['@octokit/types', 'istextorbinary', 'path-browserify', 'react', 'react-dom', 'react/jsx-runtime', 'react-dom/client'],
     },
     resolve: {
       alias: {
@@ -134,6 +134,7 @@ export default defineConfig((config) => {
         cookie: '/cookie-shim',
         'set-cookie-parser': '/set-cookie-parser-shim',
         react: '/react-shim',
+        'react-dom/client': '/react-dom/client-shim',
       },
     },
     plugins: [
@@ -253,8 +254,8 @@ export default defineConfig((config) => {
       {
         name: 'react-shim',
         resolveId(source) {
-          if (source === 'react' || source === '/react-shim' || source === 'react/jsx-runtime' || source === '/react-shim/jsx-runtime') {
-            return { id: source === 'react/jsx-runtime' ? '/react-shim/jsx-runtime' : '/react-shim', external: false };
+          if (source === 'react' || source === '/react-shim' || source === 'react/jsx-runtime' || source === '/react-shim/jsx-runtime' || source === 'react-dom/client' || source === '/react-dom/client-shim') {
+            return { id: source === 'react/jsx-runtime' ? '/react-shim/jsx-runtime' : source === 'react-dom/client' ? '/react-dom/client-shim' : '/react-shim', external: false };
           }
           return null;
         },
@@ -282,6 +283,9 @@ export default defineConfig((config) => {
               export const useActionState = React.useActionState;
               export const startTransition = React.startTransition;
               export const useId = React.useId;
+              export const createContext = React.createContext;
+              export const Component = React.Component;
+              export const PureComponent = React.PureComponent;
               export const version = React.version;
               export const Children = React.Children;
               export const isValidElement = React.isValidElement;
@@ -303,6 +307,13 @@ export default defineConfig((config) => {
             return `
               import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
               export { jsx, jsxs, Fragment };
+            `;
+          }
+          if (id === '/react-dom/client-shim') {
+            return `
+              import * as ReactDOMClient from 'react-dom/client';
+              export const hydrateRoot = ReactDOMClient.hydrateRoot;
+              export const createRoot = ReactDOMClient.createRoot;
             `;
           }
           return null;
