@@ -262,15 +262,6 @@ export default defineConfig((config) => {
           if (id === '/react-shim') {
             return `
               import * as React from 'react';
-              import { 
-                startTransition, 
-                useId, 
-                useSyncExternalStore, 
-                useInsertionEffect, 
-                useDeferredValue,
-                useOptimistic,
-                useActionState
-              } from 'react';
               export const createElement = React.createElement;
               export const Fragment = React.Fragment;
               export const useState = React.useState;
@@ -284,18 +275,13 @@ export default defineConfig((config) => {
               export const useImperativeHandle = React.useImperativeHandle;
               export const useDebugValue = React.useDebugValue;
               export const useTransition = React.useTransition;
-              export const useSyncExternalStore = React.useSyncExternalStore || useSyncExternalStore;
-              export const useInsertionEffect = React.useInsertionEffect || useInsertionEffect;
-              export const useDeferredValue = React.useDeferredValue || useDeferredValue;
-              export const useOptimistic = React.useOptimistic || useOptimistic;
-              export const useActionState = React.useActionState || useActionState;
-              export const startTransition = startTransition;
-              export const useId = useId;
-              export const useSyncExternalStore = useSyncExternalStore;
-              export const useInsertionEffect = useInsertionEffect;
-              export const useDeferredValue = useDeferredValue;
-              export const useOptimistic = useOptimistic;
-              export const useActionState = useActionState;
+              export const useSyncExternalStore = React.useSyncExternalStore;
+              export const useInsertionEffect = React.useInsertionEffect;
+              export const useDeferredValue = React.useDeferredValue;
+              export const useOptimistic = React.useOptimistic;
+              export const useActionState = React.useActionState;
+              export const startTransition = React.startTransition;
+              export const useId = React.useId;
               export const version = React.version;
               export const Children = React.Children;
               export const isValidElement = React.isValidElement;
