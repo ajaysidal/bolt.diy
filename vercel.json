@@ -1,6 +1,9 @@
 {
-  "buildCommand": "NODE_OPTIONS='--max-old-space-size=6144' pnpm install --no-frozen-lockfile && NODE_OPTIONS='--max-old-space-size=6144' pnpm run build",
-  "installCommand": "NODE_OPTIONS='--max-old-space-size=6144' pnpm install --no-frozen-lockfile",
+  "buildCommand": "NODE_OPTIONS=--max-old-space-size=8192 pnpm install --no-frozen-lockfile && NODE_OPTIONS=--max-old-space-size=8192 pnpm run build",
+  "installCommand": "NODE_OPTIONS=--max-old-space-size=8192 pnpm install --no-frozen-lockfile",
   "framework": "remix",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "env": {
+    "NODE_OPTIONS": "--max-old-space-size=8192"
+  }
 }
