@@ -271,51 +271,46 @@ export default defineConfig((config) => {
                 useOptimistic,
                 useActionState
               } from 'react';
-              const exports = {
-                ...React,
-                startTransition,
-                useId,
-                useSyncExternalStore,
-                useInsertionEffect,
-                useDeferredValue,
-                useOptimistic,
-                useActionState
-              };
-              Object.keys(exports).forEach(key => {
-                exports[key] = exports[key];
-              });
-              export const {
-                createElement,
-                Fragment,
-                useState,
-                useEffect,
-                useLayoutEffect,
-                useRef,
-                useCallback,
-                useMemo,
-                useContext,
-                useReducer,
-                useImperativeHandle,
-                useDebugValue,
-                useTransition,
-                useSyncExternalStore: useSyncExternalStoreReact,
-                useInsertionEffect: useInsertionEffectReact,
-                useDeferredValue: useDeferredValueReact,
-                useOptimistic: useOptimisticReact,
-                useActionState: useActionStateReact,
-                startTransition: startTransitionReact,
-                useId: useIdReact,
-                ...React
-              } = React;
-              export { 
-                startTransition,
-                useId,
-                useSyncExternalStore,
-                useInsertionEffect,
-                useDeferredValue,
-                useOptimistic,
-                useActionState
-              };
+              export const createElement = React.createElement;
+              export const Fragment = React.Fragment;
+              export const useState = React.useState;
+              export const useEffect = React.useEffect;
+              export const useLayoutEffect = React.useLayoutEffect;
+              export const useRef = React.useRef;
+              export const useCallback = React.useCallback;
+              export const useMemo = React.useMemo;
+              export const useContext = React.useContext;
+              export const useReducer = React.useReducer;
+              export const useImperativeHandle = React.useImperativeHandle;
+              export const useDebugValue = React.useDebugValue;
+              export const useTransition = React.useTransition;
+              export const useSyncExternalStore = React.useSyncExternalStore || useSyncExternalStore;
+              export const useInsertionEffect = React.useInsertionEffect || useInsertionEffect;
+              export const useDeferredValue = React.useDeferredValue || useDeferredValue;
+              export const useOptimistic = React.useOptimistic || useOptimistic;
+              export const useActionState = React.useActionState || useActionState;
+              export const startTransition = startTransition;
+              export const useId = useId;
+              export const useSyncExternalStore = useSyncExternalStore;
+              export const useInsertionEffect = useInsertionEffect;
+              export const useDeferredValue = useDeferredValue;
+              export const useOptimistic = useOptimistic;
+              export const useActionState = useActionState;
+              export const version = React.version;
+              export const Children = React.Children;
+              export const isValidElement = React.isValidElement;
+              export const cloneElement = React.cloneElement;
+              export const createFactory = React.createFactory;
+              export const createRef = React.createRef;
+              export const forwardRef = React.forwardRef;
+              export const memo = React.memo;
+              export const lazy = React.lazy;
+              export const Suspense = React.Suspense;
+              export const Profiler = React.Profiler;
+              export const StrictMode = React.StrictMode;
+              export const unstable_act = React.unstable_act;
+              export const unstable_useCacheRefresh = React.unstable_useCacheRefresh;
+              export const unstable_useMemoCache = React.unstable_useMemoCache;
             `;
           }
           return null;
