@@ -266,6 +266,7 @@ export default defineConfig((config) => {
           if (id === '/react-shim') {
             return `
               import * as React from 'react';
+              import { jsx, jsxs, Fragment as JsxFragment } from 'react/jsx-runtime';
               export const createElement = React.createElement;
               export const Fragment = React.Fragment;
               export const useState = React.useState;
@@ -304,6 +305,8 @@ export default defineConfig((config) => {
               export const unstable_act = React.unstable_act;
               export const unstable_useCacheRefresh = React.unstable_useCacheRefresh;
               export const unstable_useMemoCache = React.unstable_useMemoCache;
+              export const jsx = jsx;
+              export const jsxs = jsxs;
             `;
           }
           if (id === '/react-shim/jsx-runtime') {
