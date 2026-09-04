@@ -166,6 +166,41 @@ export default defineConfig((config) => {
           return null;
         },
       },
+      {
+        name: 'cookie-shim',
+        resolveId(source) {
+          if (source === 'cookie') {
+            return { id: 'cookie-shim', external: false };
+          }
+          return null;
+        },
+        load(id) {
+          if (id === 'cookie-shim') {
+            return `
+              import { serialize } from 'cookie';
+              // cookie@0.5+ removed parse, add it back
+              const parse = (str, options) => {
+                if (typeof str !== 'string') return {};
+                const obj = {};
+                const pairs = str.split(/; */);
+                for (const pair of pairs) {
+                  const eqIdx = pair.indexOf('=');
+                  if (eqIdx < 0) continue;
+                  const key = pair.slice(0, eqIdx).trim();
+                  let val = pair.slice(eqIdx + 1).trim();
+                  if (val.startsWith('"') && val.endsWith('"')) {
+                    val = val.slice(1, -1);
+                  }
+                  if (key) obj[key] = decodeURIComponent(val);
+                }
+                return obj;
+              };
+              export { parse, serialize };
+            `;
+          }
+          return null;
+        },
+      },
       config.mode !== 'test' && remixCloudflareDevProxy(),
       remixVitePlugin({
         future: {
