@@ -125,7 +125,7 @@ export default defineConfig((config) => {
           global: 'globalThis',
         },
       },
-      include: ['@octokit/types', 'istextorbinary', 'path-browserify', 'react', 'react-dom', 'react/jsx-runtime', 'react-dom/client'],
+      include: ['@octokit/types', 'istextorbinary', 'path-browserify', 'react', 'react-dom', 'react/jsx-runtime'],
     },
     resolve: {
       alias: {
@@ -134,7 +134,6 @@ export default defineConfig((config) => {
         cookie: '/cookie-shim',
         'set-cookie-parser': '/set-cookie-parser-shim',
         react: '/react-shim',
-        'react-dom/client': '/react-dom/client-shim',
       },
     },
     plugins: [
@@ -251,18 +250,19 @@ export default defineConfig((config) => {
           return null;
         },
       },
-      {
+{
         name: 'react-shim',
         resolveId(source) {
-          if (source === 'react' || source === '/react-shim' || source === 'react/jsx-runtime' || source === '/react-shim/jsx-runtime' || source === 'react-dom/client' || source === '/react-dom/client-shim') {
-            return { id: source === 'react/jsx-runtime' ? '/react-shim/jsx-runtime' : source === 'react-dom/client' ? '/react-dom/client-shim' : '/react-shim', external: false };
+          if (source === 'react' || source === '/react-shim' || source === 'react/jsx-runtime' || source === '/react-shim/jsx-runtime') {
+            return { id: source === 'react/jsx-runtime' ? '/react-shim/jsx-runtime' : '/react-shim', external: false };
           }
           return null;
         },
-load(id) {
+        load(id) {
           if (id === '/react-shim') {
             return `
               import * as React from 'react';
+              import * as ReactDOMClient from 'react-dom/client';
               export const createElement = React.createElement;
               export const Fragment = React.Fragment;
               export const useState = React.useState;
@@ -301,6 +301,8 @@ load(id) {
               export const unstable_act = React.unstable_act;
               export const unstable_useCacheRefresh = React.unstable_useCacheRefresh;
               export const unstable_useMemoCache = React.unstable_useMemoCache;
+              export const hydrateRoot = ReactDOMClient.hydrateRoot;
+              export const createRoot = ReactDOMClient.createRoot;
             `;
           }
           if (id === '/react-shim/jsx-runtime') {
@@ -309,14 +311,7 @@ load(id) {
               export { jsx, jsxs, Fragment };
             `;
           }
-          if (id === '/react-dom/client-shim') {
-            return `
-              import * as ReactDOMClient from 'react-dom/client';
-              export const hydrateRoot = ReactDOMClient.hydrateRoot;
-              export const createRoot = ReactDOMClient.createRoot;
-            `;
-          }
-return null;
+          return null;
         },
       },
       config.mode !== 'test' && remixCloudflareDevProxy(),
