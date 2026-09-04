@@ -259,7 +259,7 @@ export default defineConfig((config) => {
           }
           return null;
         },
-        load(id) {
+load(id) {
           if (id === '/react-shim') {
             return `
               import * as React from 'react';
@@ -318,6 +318,7 @@ export default defineConfig((config) => {
           }
           return null;
         },
+      },
       },
       config.mode !== 'test' && remixCloudflareDevProxy(),
       remixVitePlugin({
