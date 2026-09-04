@@ -7,7 +7,8 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import * as dotenv from 'dotenv';
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, basename } from 'path';
+import { vercelPreset } from '@vercel/remix-vite-preset';
 
 dotenv.config();
 
@@ -96,11 +97,27 @@ export default defineConfig((config) => {
       rollupOptions: {
         output: {
           format: 'esm',
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom'],
+            'vendor-remix': ['@remix-run/react', '@remix-run/node'],
+            'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tooltip', '@radix-ui/react-tabs', '@radix-ui/react-popover', '@radix-ui/react-scroll-area', '@radix-ui/react-separator', '@radix-ui/react-switch', '@radix-ui/react-label', '@radix-ui/react-progress', '@radix-ui/react-collapsible', '@radix-ui/react-checkbox', '@radix-ui/react-context-menu'],
+            'vendor-codemirror': ['@codemirror/view', '@codemirror/state', '@codemirror/language', '@codemirror/autocomplete', '@codemirror/commands', '@codemirror/search', '@lezer/highlight'],
+            'vendor-ai': ['ai', '@ai-sdk/anthropic', '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/mistral', '@ai-sdk/cohere', '@ai-sdk/deepseek', '@ai-sdk/amazon-bedrock', '@openrouter/ai-sdk-provider', 'ollama-ai-provider'],
+            'vendor-utils': ['zustand', 'nanostores', '@nanostores/react', 'clsx', 'tailwind-merge', 'date-fns', 'diff', 'zod'],
+            'vendor-icons': ['lucide-react', '@heroicons/react', '@phosphor-icons/react', 'react-icons'],
+            'vendor-webcontainer': ['@webcontainer/api'],
+            'vendor-terminal': ['@xterm/xterm', '@xterm/addon-fit', '@xterm/addon-web-links'],
+            'vendor-motion': ['framer-motion'],
+            'vendor-dnd': ['react-dnd', 'react-dnd-html5-backend', '@tanstack/react-virtual', 'react-window', 'react-beautiful-dnd'],
+            'vendor-markdown': ['react-markdown', 'rehype-raw', 'rehype-sanitize', 'remark-gfm', 'shiki'],
+            'vendor-other': ['@octokit/rest', '@octokit/types', 'isomorphic-git', 'jszip', 'file-saver', 'chart.js', 'react-chartjs-2', 'jspdf', 'react-qrcode-logo', 'react-resizable-panels', 'react-toastify', 'use-debounce', 'jose', 'mime', 'ignore'],
+          },
         },
       },
       commonjsOptions: {
         transformMixedEsModules: true,
       },
+      chunkSizeWarningLimit: 1000,
     },
     optimizeDeps: {
       esbuildOptions: {
@@ -126,6 +143,15 @@ export default defineConfig((config) => {
         exclude: ['child_process', 'fs', 'path'],
       }),
       {
+        name: 'path-basename-polyfill',
+        resolveId(source) {
+          if (source === 'path' || source === 'path-browserify') {
+            return { id: 'path-browserify', external: false };
+          }
+          return null;
+        },
+      },
+      {
         name: 'buffer-polyfill',
         transform(code, id) {
           if (id.includes('env.mjs')) {
@@ -147,6 +173,7 @@ export default defineConfig((config) => {
           v3_lazyRouteDiscovery: true,
         },
       }),
+      config.command === 'build' && config.mode === 'production' && vercelPreset(),
       UnoCSS(),
       tsconfigPaths(),
       chrome129IssuePlugin(),
