@@ -153,8 +153,7 @@
     "vite-plugin-node-polyfills": "^0.22.0",
     "zod": "^3.24.1",
     "zustand": "^5.0.3",
-    "@emotion/is-prop-valid": "^1.2.2",
-    "@vercel/remix-vite-preset": "^1.0.0"
+    "@emotion/is-prop-valid": "^1.2.2"
   },
   "devDependencies": {
     "@blitz/eslint-plugin": "0.1.0",
@@ -202,8 +201,7 @@
     "vite-plugin-optimize-css-modules": "^1.1.0",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.1.7",
-    "wrangler": "^4.5.1",
-    "@vercel/remix-vite-preset": "^1.0.0"
+    "wrangler": "^4.5.1"
   },
   "resolutions": {
     "@typescript-eslint/utils": "^8.0.0-alpha.30"

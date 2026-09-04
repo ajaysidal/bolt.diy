@@ -8,7 +8,6 @@ import * as dotenv from 'dotenv';
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { join, basename } from 'path';
-import { vercelPreset } from '@vercel/remix-vite-preset';
 
 dotenv.config();
 
@@ -173,7 +172,6 @@ export default defineConfig((config) => {
           v3_lazyRouteDiscovery: true,
         },
       }),
-      config.command === 'build' && config.mode === 'production' && vercelPreset(),
       UnoCSS(),
       tsconfigPaths(),
       chrome129IssuePlugin(),
