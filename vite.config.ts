@@ -263,13 +263,18 @@ export default defineConfig((config) => {
             return `
               import * as React from 'react';
               import { startTransition, useId, useSyncExternalStore, useInsertionEffect, useDeferredValue } from 'react';
+              export const { 
+                createElement, Fragment, useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, useContext, 
+                useReducer, useImperativeHandle, useDebugValue, useTransition, useSyncExternalStore: useSyncExternalStoreReact,
+                useInsertionEffect: useInsertionEffectReact, useDeferredValue: useDeferredValueReact,
+                ...React 
+              } = React;
               export { 
-                ...React,
-                startTransition,
-                useId,
-                useSyncExternalStore,
-                useInsertionEffect,
-                useDeferredValue,
+                startTransition, 
+                useId, 
+                useSyncExternalStore, 
+                useInsertionEffect, 
+                useDeferredValue 
               };
             `;
           }
