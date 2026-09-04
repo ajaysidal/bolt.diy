@@ -206,9 +206,9 @@
   },
   "pnpm": {
     "overrides": {
-      "react-router@*": "npm:react-router@^6.28.0",
-      "react-router-dom@*": "npm:react-router-dom@^6.28.0",
-      "cookie@*": "npm:cookie@^0.4.0"
+      "react-router": "^6.28.0",
+      "react-router-dom": "^6.28.0",
+      "cookie": "^0.4.0"
     }
   },
   "resolutions": {

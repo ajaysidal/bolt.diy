@@ -178,7 +178,6 @@ export default defineConfig((config) => {
         load(id) {
           if (id === '/cookie-shim') {
             return `
-              import { serialize } from 'cookie';
               // cookie@0.5+ removed parse, add it back
               const parse = (str, options) => {
                 if (typeof str !== 'string') return {};
@@ -195,6 +194,18 @@ export default defineConfig((config) => {
                   if (key) obj[key] = decodeURIComponent(val);
                 }
                 return obj;
+              };
+              const serialize = (name, val, options) => {
+                const opt = options || {};
+                const pairs = [name + '=' + encodeURIComponent(val)];
+                if (opt.maxAge) pairs.push('Max-Age=' + opt.maxAge);
+                if (opt.domain) pairs.push('Domain=' + opt.domain);
+                if (opt.path) pairs.push('Path=' + opt.path);
+                if (opt.expires) pairs.push('Expires=' + opt.expires.toUTCString());
+                if (opt.httpOnly) pairs.push('HttpOnly');
+                if (opt.secure) pairs.push('Secure');
+                if (opt.sameSite) pairs.push('SameSite=' + opt.sameSite);
+                return pairs.join('; ');
               };
               export { parse, serialize };
             `;
