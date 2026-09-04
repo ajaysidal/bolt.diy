@@ -131,6 +131,7 @@ export default defineConfig((config) => {
       alias: {
         buffer: 'vite-plugin-node-polyfills/polyfills/buffer',
         path: 'path-browserify',
+        cookie: '/cookie-shim',
       },
     },
     plugins: [
@@ -169,13 +170,13 @@ export default defineConfig((config) => {
       {
         name: 'cookie-shim',
         resolveId(source) {
-          if (source === 'cookie') {
-            return { id: 'cookie-shim', external: false };
+          if (source === 'cookie' || source === '/cookie-shim') {
+            return { id: '/cookie-shim', external: false };
           }
           return null;
         },
         load(id) {
-          if (id === 'cookie-shim') {
+          if (id === '/cookie-shim') {
             return `
               import { serialize } from 'cookie';
               // cookie@0.5+ removed parse, add it back

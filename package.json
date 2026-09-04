@@ -204,6 +204,13 @@
     "vitest": "^2.1.7",
     "wrangler": "^4.5.1"
   },
+  "pnpm": {
+    "overrides": {
+      "react-router@*": "npm:react-router@^6.28.0",
+      "react-router-dom@*": "npm:react-router-dom@^6.28.0",
+      "cookie@*": "npm:cookie@^0.4.0"
+    }
+  },
   "resolutions": {
     "@typescript-eslint/utils": "^8.0.0-alpha.30",
     "cookie": "^0.4.0",
