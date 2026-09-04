@@ -49,3 +49,4 @@ docs/instructions/Roadmap.md
 
 # Kilo local config
 .kilo/
+.vercel
