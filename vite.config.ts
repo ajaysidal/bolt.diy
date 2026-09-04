@@ -125,7 +125,7 @@ export default defineConfig((config) => {
           global: 'globalThis',
         },
       },
-      include: ['@octokit/types', 'istextorbinary', 'path-browserify', 'react', 'react-dom', 'react/jsx-runtime'],
+      include: ['@octokit/types', 'istextorbinary', 'path-browserify'],
     },
     resolve: {
       alias: {
@@ -133,7 +133,6 @@ export default defineConfig((config) => {
         path: 'path-browserify',
         cookie: '/cookie-shim',
         'set-cookie-parser': '/set-cookie-parser-shim',
-        react: '/react-shim',
       },
     },
     plugins: [
@@ -245,37 +244,6 @@ export default defineConfig((config) => {
                 });
               };
               export { parse, splitCookiesString };
-            `;
-          }
-          return null;
-        },
-      },
-      {
-        name: 'react-shim',
-        resolveId(source) {
-          if (source === 'react' || source === '/react-shim') {
-            return { id: '/react-shim', external: false };
-          }
-          return null;
-        },
-        load(id) {
-          if (id === '/react-shim') {
-            return `
-              import * as React from 'react';
-              import { startTransition, useId, useSyncExternalStore, useInsertionEffect, useDeferredValue } from 'react';
-              export const { 
-                createElement, Fragment, useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, useContext, 
-                useReducer, useImperativeHandle, useDebugValue, useTransition, useSyncExternalStore: useSyncExternalStoreReact,
-                useInsertionEffect: useInsertionEffectReact, useDeferredValue: useDeferredValueReact,
-                ...React 
-              } = React;
-              export { 
-                startTransition, 
-                useId, 
-                useSyncExternalStore, 
-                useInsertionEffect, 
-                useDeferredValue 
-              };
             `;
           }
           return null;
