@@ -132,6 +132,7 @@ export default defineConfig((config) => {
         buffer: 'vite-plugin-node-polyfills/polyfills/buffer',
         path: 'path-browserify',
         cookie: '/cookie-shim',
+        'set-cookie-parser': '/set-cookie-parser-shim',
       },
     },
     plugins: [
@@ -208,6 +209,41 @@ export default defineConfig((config) => {
                 return pairs.join('; ');
               };
               export { parse, serialize };
+            `;
+          }
+          return null;
+        },
+      },
+      {
+        name: 'set-cookie-parser-shim',
+        resolveId(source) {
+          if (source === 'set-cookie-parser' || source === '/set-cookie-parser-shim') {
+            return { id: '/set-cookie-parser-shim', external: false };
+          }
+          return null;
+        },
+        load(id) {
+          if (id === '/set-cookie-parser-shim') {
+            return `
+              // set-cookie-parser@2.7+ removed splitCookiesString, add it back
+              const splitCookiesString = (str) => {
+                if (typeof str !== 'string') return [];
+                return str.split(',').map(s => s.trim());
+              };
+              const parse = (str, options) => {
+                if (typeof str !== 'string') return [];
+                const cookies = str.split(';').map(s => s.trim());
+                return cookies.map(cookie => {
+                  const [name, ...valueParts] = cookie.split('=');
+                  const value = valueParts.join('=');
+                  const result = { name: name.trim(), value: value.trim() };
+                  if (options?.map) {
+                    return options.map(result);
+                  }
+                  return result;
+                });
+              };
+              export { parse, splitCookiesString };
             `;
           }
           return null;
