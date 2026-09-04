@@ -253,8 +253,8 @@ export default defineConfig((config) => {
       {
         name: 'react-shim',
         resolveId(source) {
-          if (source === 'react' || source === '/react-shim') {
-            return { id: '/react-shim', external: false };
+          if (source === 'react' || source === '/react-shim' || source === 'react/jsx-runtime' || source === '/react-shim/jsx-runtime') {
+            return { id: source === 'react/jsx-runtime' ? '/react-shim/jsx-runtime' : '/react-shim', external: false };
           }
           return null;
         },
@@ -297,6 +297,12 @@ export default defineConfig((config) => {
               export const unstable_act = React.unstable_act;
               export const unstable_useCacheRefresh = React.unstable_useCacheRefresh;
               export const unstable_useMemoCache = React.unstable_useMemoCache;
+            `;
+          }
+          if (id === '/react-shim/jsx-runtime') {
+            return `
+              import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
+              export { jsx, jsxs, Fragment };
             `;
           }
           return null;
