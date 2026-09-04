@@ -316,9 +316,8 @@ load(id) {
               export const createRoot = ReactDOMClient.createRoot;
             `;
           }
-          return null;
+return null;
         },
-      },
       },
       config.mode !== 'test' && remixCloudflareDevProxy(),
       remixVitePlugin({
