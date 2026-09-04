@@ -115,6 +115,7 @@ export default defineConfig((config) => {
       },
       commonjsOptions: {
         transformMixedEsModules: true,
+        include: [/node_modules\/@octokit\/types/, /node_modules\/istextorbinary/],
       },
       chunkSizeWarningLimit: 1000,
     },
@@ -124,10 +125,12 @@ export default defineConfig((config) => {
           global: 'globalThis',
         },
       },
+      include: ['@octokit/types', 'istextorbinary', 'path-browserify'],
     },
     resolve: {
       alias: {
         buffer: 'vite-plugin-node-polyfills/polyfills/buffer',
+        path: 'path-browserify',
       },
     },
     plugins: [
