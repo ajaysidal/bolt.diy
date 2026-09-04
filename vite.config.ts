@@ -125,7 +125,7 @@ export default defineConfig((config) => {
           global: 'globalThis',
         },
       },
-      include: ['@octokit/types', 'istextorbinary', 'path-browserify'],
+      include: ['@octokit/types', 'istextorbinary', 'path-browserify', 'react', 'react-dom', 'react/jsx-runtime'],
     },
     resolve: {
       alias: {
@@ -133,6 +133,7 @@ export default defineConfig((config) => {
         path: 'path-browserify',
         cookie: '/cookie-shim',
         'set-cookie-parser': '/set-cookie-parser-shim',
+        react: '/react-shim',
       },
     },
     plugins: [
@@ -244,6 +245,77 @@ export default defineConfig((config) => {
                 });
               };
               export { parse, splitCookiesString };
+            `;
+          }
+          return null;
+        },
+      },
+      {
+        name: 'react-shim',
+        resolveId(source) {
+          if (source === 'react' || source === '/react-shim') {
+            return { id: '/react-shim', external: false };
+          }
+          return null;
+        },
+        load(id) {
+          if (id === '/react-shim') {
+            return `
+              import * as React from 'react';
+              import { 
+                startTransition, 
+                useId, 
+                useSyncExternalStore, 
+                useInsertionEffect, 
+                useDeferredValue,
+                useOptimistic,
+                useActionState
+              } from 'react';
+              const exports = {
+                ...React,
+                startTransition,
+                useId,
+                useSyncExternalStore,
+                useInsertionEffect,
+                useDeferredValue,
+                useOptimistic,
+                useActionState
+              };
+              Object.keys(exports).forEach(key => {
+                exports[key] = exports[key];
+              });
+              export const {
+                createElement,
+                Fragment,
+                useState,
+                useEffect,
+                useLayoutEffect,
+                useRef,
+                useCallback,
+                useMemo,
+                useContext,
+                useReducer,
+                useImperativeHandle,
+                useDebugValue,
+                useTransition,
+                useSyncExternalStore: useSyncExternalStoreReact,
+                useInsertionEffect: useInsertionEffectReact,
+                useDeferredValue: useDeferredValueReact,
+                useOptimistic: useOptimisticReact,
+                useActionState: useActionStateReact,
+                startTransition: startTransitionReact,
+                useId: useIdReact,
+                ...React
+              } = React;
+              export { 
+                startTransition,
+                useId,
+                useSyncExternalStore,
+                useInsertionEffect,
+                useDeferredValue,
+                useOptimistic,
+                useActionState
+              };
             `;
           }
           return null;
