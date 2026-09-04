@@ -110,6 +110,7 @@
     "diff": "^5.2.0",
     "dotenv": "^16.4.7",
     "cookie": "^0.4.0",
+    "set-cookie-parser": "^2.6.0",
     "electron-log": "^5.2.3",
     "electron-store": "^10.0.0",
     "electron-updater": "^6.3.9",
@@ -206,9 +207,10 @@
   },
   "pnpm": {
     "overrides": {
-      "react-router": "^6.28.0",
-      "react-router-dom": "^6.28.0",
-      "cookie": "^0.4.0"
+      "react-router": "6.28.0",
+      "react-router-dom": "6.28.0",
+      "cookie": "0.4.0",
+      "set-cookie-parser": "2.6.0"
     }
   },
   "resolutions": {
